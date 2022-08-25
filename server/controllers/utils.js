@@ -1,3 +1,5 @@
+const Account = require("../models/Account");
+
 const handleAPIError = (res, error) => {
     let reason = "Unkwown error";
     let status = 500;
@@ -35,8 +37,12 @@ const handleAPIError = (res, error) => {
             status = 401;
             break;
         case 8:
-            reason= "Data not passed";
+            reason = "Data not passed";
             status = 400;
+            break;
+        case 9:
+            reason = "Register not found";
+            status = 404;
             break;
         case 11000:
             // reason = `[MongoDB]: Duplicate key error ${error.keyValue}`;
@@ -64,7 +70,19 @@ const handleAPIError = (res, error) => {
     res.status(status).json(response);
 };
 
+const checkWishBelongsToLoggedUser = async (req, id) => {
+    const selectedAccount = await Account.findOne({ _id: req.session.userId })
+        .select("wishes")
+        .populate({
+            path: "wishes",
+            match: {
+                _id: id
+            }
+        });
+    return selectedAccount.wishes[0] ? true : false;
+};
 
 module.exports = {
     handleAPIError,
+    checkWishBelongsToLoggedUser
 };

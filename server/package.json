@@ -4,13 +4,14 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --runInBand --verbose",
     "test:watch": "npm test -- --watch",
     "dev": "NODE_ENV=development nodemon index.js"
   },
   "author": "Matias Guzman <matiasguzlop@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@types/jest": "^28.1.6",
     "bcrypt": "^5.0.1",
     "body-parser": "^1.20.0",
     "cors": "^2.8.5",

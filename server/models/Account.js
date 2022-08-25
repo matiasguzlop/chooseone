@@ -16,6 +16,25 @@ const accountSchema = mongoose.Schema({
         type: String,
         required: false
     },
+    friends: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "Account",
+        // default: []
+    },
+    wishes: {
+        type: [mongoose.Schema.Types.ObjectId],
+        ref: "Wish",
+        // default: []
+    },
+    emailVerified: {
+        type: Boolean,
+        // required: true,
+        default: false
+    },
+    token: {
+        type: String,
+        // required: true,
+    },
     createdAt: {
         type: Date,
         // required: true,
@@ -26,15 +45,6 @@ const accountSchema = mongoose.Schema({
         // required: false,
         default: new Date()
     },
-    emailVerified: {
-        type: Boolean,
-        // required: true,
-        default: false
-    },
-    token: {
-        type: String,
-        // required: true,
-    }
 });
 
 

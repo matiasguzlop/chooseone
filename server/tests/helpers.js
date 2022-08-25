@@ -21,6 +21,17 @@ const updatedAccount = {
     name: "Felipe López"
 };
 
+const wishOne = {
+    name:"Oxford cityspeed 2022",
+    description: "Just a bicycle",
+    linkRef: "https://oxford.com/cityspeed-2022",
+}
+
+const wishTwo = {
+    name:"Plant",
+    description: "A small one for my desktop",
+}
+
 const createAccountDirectly = async (account) => {
     // console.log("CREATING NEW ACCOUNT DIRECTLY")
     const newAccount = new Account(account);
@@ -36,5 +47,7 @@ module.exports = {
     updatedAccount,
     createAccountDirectly,
     getAllAccountsDirectly,
-    secondAccount
+    secondAccount,
+    wishTwo,
+    wishOne
 };

@@ -79,6 +79,8 @@ describe("Session login and logout checks", () => {
         expect(body.message).toHaveProperty("createdAt");
         expect(body.message).toHaveProperty("updatedAt");
         expect(body.message).toHaveProperty("emailVerified", initialAccount.emailVerified);
+        expect(body.message).toHaveProperty("wishes");
+        expect(body.message).toHaveProperty("friends");
         expect(body.message).not.toHaveProperty("password");
     });
 
@@ -93,31 +95,6 @@ describe("Session login and logout checks", () => {
         expect(body.message).toHaveProperty("_id");
         expect(body.message).toHaveProperty("token");
         expect(body.message).not.toHaveProperty("password");
-    });
-
-    test("Read some data when logged in", async () => {
-        const { status: s1, body: b1 } = await api.post("/accounts/login").send({ email: initialAccount.email, password: initialAccount.password });
-        expect(s1).toBe(200);
-        expect(b1.message).toHaveProperty("name", initialAccount.name);
-        expect(b1.message).toHaveProperty("emailVerified", true);
-        expect(b1.message).not.toHaveProperty("password");
-    });
-
-    test("Read full data when logged in and ask for user data", async () => {
-        const { status: s1, body: b1 } = await api.post("/accounts/login").send({ email: initialAccount.email, password: initialAccount.password });
-        expect(s1).toBe(200);
-        expect(b1.message).toHaveProperty("name", initialAccount.name);
-        expect(b1.message).toHaveProperty("emailVerified", true);
-        expect(b1.message).not.toHaveProperty("password");
-        const { status: s2, body: b2 } = await api.get("/accounts/accountData");
-        expect(s2).toBe(200);
-        expect(b2.message).toHaveProperty("name", initialAccount.name);
-        expect(b2.message).toHaveProperty("email", initialAccount.email);
-        expect(b2.message).toHaveProperty("token");
-        expect(b2.message).toHaveProperty("emailVerified", initialAccount.emailVerified);
-        expect(b2.message).toHaveProperty("createdAt");
-        expect(b2.message).toHaveProperty("updatedAt");
-        expect(b2.message).not.toHaveProperty("password");
     });
 
     test("Should edit account name", async () => {
@@ -135,7 +112,7 @@ describe("Session login and logout checks", () => {
         expect(result).toHaveProperty("email", initialAccount.email);
     });
 
-    test("Should delete account", async () => {
+    test("Should delete account", async () => {//TODO: also delete associated list
         await Account.deleteMany({});
         const { status: status0, body: body0 } = await api.post("/accounts/").send(initialAccount);
         const toDeleteId = body0.message._id;
@@ -267,3 +244,4 @@ describe("Corner cases for Accounts", () => {
     });
 
 });
+

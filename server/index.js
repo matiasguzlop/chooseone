@@ -6,6 +6,7 @@ const expressSession = require("express-session");
 const cors = require("cors");
 
 const accountsRouter = require("./routers/accounts");
+const wishesRouter = require("./routers/wishes");
 
 const app = express();
 app.use(bodyParser.json());
@@ -18,15 +19,16 @@ app.use(expressSession({
 }));
 
 app.use("/accounts", accountsRouter);
+app.use("/wishes", wishesRouter);
 
 const connection_url = process.env.NODE_ENV === "test" ? process.env.DB_CON_URL_TEST : process.env.DB_CON_URL;
 mongoose.connect(connection_url)
-.then(() => console.log("DB connection established"))
-.catch((error) => console.log(error));
+    .then(() => console.log("DB connection established"))
+    .catch((error) => console.log(error));
 
 const PORT = process.env.PORT;
 process.env.NODE_ENV !== "test" &&
-    app.listen(PORT,() => {
+    app.listen(PORT, () => {
         console.log(`Server running at ${PORT}`);
     });
 
